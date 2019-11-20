@@ -1,0 +1,41 @@
+{
+  "name": "parcel-plugin-jsy",
+  "version": "0.0.0",
+  "description": "Parcel 1.x JSY syntax transpiler to standard JavaScript — without Babel",
+  "license": "MIT",
+  "author": "Shane Holloway",
+  "homepage": "https://github.com/jsy-lang/parcel-plugin-jsy#readme",
+  "keywords": [
+    "parcel",
+    "parcel-plugin",
+    "JSY"
+  ],
+  "files": [
+    "cjs",
+    "code",
+    "esm"
+  ],
+  "main": "index.js",
+  "commonjs": "cjs/jsy_asset.js",
+  "module": "esm/jsy_asset.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsy-lang/parcel-plugin-jsy.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jsy-transpile": "^0.5.10",
+    "parcel-bundler": "^1.12.4",
+    "rollup": "^1.27.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0"
+  },
+  "scripts": {
+    "clean": "rm -rf cjs/ esm/",
+    "build": "rollup --config",
+    "watch": "npm -s run build -- --watch",
+    "prepublish": "npm -s run test",
+    "pretest": "npm -s run build",
+    "test": "echo 'TODO'"
+  }
+}
