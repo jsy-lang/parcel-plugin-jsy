@@ -5,6 +5,8 @@ import jsy_transpile_snapshot from 'jsy-transpile'
 let jsy_transpile = jsy_transpile_snapshot
 try { jsy_transpile = require('jsy-transpile') } catch (err) {}
 
+const { SourceMapGenerator } = require('source-map')
+
 
 class JSYAsset extends Asset {
   constructor(name, pkg, options) {
@@ -17,17 +19,23 @@ class JSYAsset extends Asset {
     const source = this.relativeName
 
     try {
-      let src_map
-      const addSourceMapping = options.sourceMaps
-        ? arg => { arg.source = source; src_map = arg }
-        : null
+      let src_map = options.sourceMaps ? new SourceMapGenerator() : null
 
-      this.contents = jsy_transpile(this.contents, { addSourceMapping })
+      const js_src = jsy_transpile(this.contents, {
+        addSourceMapping(arg) {
+          if (null === src_map) return;
+          arg.source = source
+          src_map.addMapping(arg)
+        }, })
 
-      if (undefined !== src_map)
-        this.sourceMap = src_map
+      if (null !== src_map) {
+        src_map = src_map.toJSON()
+        src_map.sourcesContent = [this.contents]
+        src_map.sources = [this.relativeName]
+        delete src_map.source
+      }
 
-      return [{ type: 'js', value: this.contents, sourceMap: src_map }]
+      return [{ type: 'js', value: js_src, map: src_map }]
 
     } catch (err) {
       if (undefined !== err.src_loc) {

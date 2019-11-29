@@ -1,6 +1,6 @@
 {
   "name": "parcel-plugin-jsy",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Parcel 1.x JSY syntax transpiler to standard JavaScript — without Babel",
   "license": "MIT",
   "author": "Shane Holloway",
@@ -22,15 +22,17 @@
     "type": "git",
     "url": "git+https://github.com/jsy-lang/parcel-plugin-jsy.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "source-map": "^0.7.3"
+  },
   "devDependencies": {
     "jsy-transpile": "^0.5.10",
-    "parcel-bundler": "^1.12.4",
     "rollup": "^1.27.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0"
   },
   "scripts": {
+    "postinstall": "echo 'POST INSTALL' ; npm link parcel-bundler",
     "clean": "rm -rf cjs/ esm/",
     "build": "rollup --config",
     "watch": "npm -s run build -- --watch",
