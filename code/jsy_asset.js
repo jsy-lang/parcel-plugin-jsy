@@ -1,11 +1,11 @@
 const { Asset } = require('parcel-bundler');
 
+import tiny_sourcemap from 'tiny-source-map'
 import jsy_transpile_snapshot from 'jsy-transpile'
 
 let jsy_transpile = jsy_transpile_snapshot
 try { jsy_transpile = require('jsy-transpile') } catch (err) {}
 
-const { SourceMapGenerator } = require('source-map')
 
 
 class JSYAsset extends Asset {
@@ -19,7 +19,7 @@ class JSYAsset extends Asset {
     const source = this.relativeName
 
     try {
-      let src_map = options.sourceMaps ? new SourceMapGenerator() : null
+      let src_map = options.sourceMaps ? tiny_sourcemap() : null
 
       const js_src = jsy_transpile(this.contents, {
         addSourceMapping(arg) {
